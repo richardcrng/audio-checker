@@ -7,7 +7,7 @@ function AudioButton(props) {
     : [MdPlayCircleFilled, props.handlePlay]
 
   return (
-    <Icon size={40} onClick={clickHandler} />
+    <Icon size={props.size} onClick={clickHandler} />
   )
 }
 

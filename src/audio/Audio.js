@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAudio } from 'react-use';
 import AudioButton from './button/AudioButton';
+import { MdFastRewind, MdFastForward } from 'react-icons/md';
 
 function Audio(props) {
   const [audio, state, controls, ref] = useAudio({
@@ -11,12 +12,15 @@ function Audio(props) {
     <div>
       {audio}
       <pre>{JSON.stringify(state, null, 2)}</pre>
-      <button onClick={controls.pause}>Pause</button>
-      <button onClick={controls.play}>Play</button>
-      <AudioButton pause={state.isPlaying} handlePlay={controls.play} handlePause={controls.pause} />
+      <MdFastRewind size={40} onClick={() => controls.seek(state.time - 5)} />
+      <AudioButton
+        pause={state.isPlaying}
+        handlePlay={controls.play}
+        handlePause={controls.pause}
+        size={40}
+      />
+      <MdFastForward size={40} onClick={() => controls.seek(state.time + 5)} />
       <br />
-      <button onClick={() => controls.seek(state.time - 5)}>-5 sec</button>
-      <button onClick={() => controls.seek(state.time + 5)}>+5 sec</button>
     </div>
   );
 }
