@@ -10,7 +10,11 @@ function App(props) {
   const [output, setOutput] = useLocalStorage('output', {})
 
   React.useEffect(() => {
-    console.log("output", output)
+    // Download output if it has stabilised (1s delay)
+    const timeout = setTimeout(() => downloadObjectAsJson(output, "output"), 1000);
+    return function cleanup() {
+      clearTimeout(timeout)
+    }
   }, [output])
 
   return (
@@ -26,6 +30,18 @@ function App(props) {
       ))}
     </div>
   )
+}
+
+
+
+function downloadObjectAsJson(exportObj, exportName) {
+  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+  var downloadAnchorNode = document.createElement('a');
+  downloadAnchorNode.setAttribute("href", dataStr);
+  downloadAnchorNode.setAttribute("download", exportName + ".json");
+  document.body.appendChild(downloadAnchorNode); // required for firefox
+  downloadAnchorNode.click();
+  downloadAnchorNode.remove();
 }
 
 export default App;
